@@ -1,0 +1,14 @@
+[
+    {
+        "Elemento_tipo": 1,
+        "Categoria": "Tuberia"
+    },
+    {
+        "Elemento_tipo": 2,
+        "Categoria": "Accesorios"
+    },
+    {
+        "Elemento_tipo": 3,
+        "Categoria": "Equipos"
+    }
+]

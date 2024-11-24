@@ -1,0 +1,18 @@
+[
+    {
+        "id": 1,
+        "nombre": "Regulador alta"
+    },
+    {
+        "id": 2,
+        "nombre": "Regulador baja"
+    },
+    {
+        "id": 3,
+        "nombre": "Medidor"
+    },
+    {
+        "id": 4,
+        "nombre": "Válvula de cierre rápido"
+    }
+]

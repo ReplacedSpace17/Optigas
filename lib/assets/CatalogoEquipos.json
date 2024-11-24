@@ -1,0 +1,38 @@
+[
+    {
+        "id": 1,
+        "nombre": "Tortilladora",
+        "numero_quemadores": "NA",
+        "categoria": "alta",
+        "consumo": 6, 
+        "icono": "fas fa-utensils"
+    },
+    {
+        "id": 2,
+        "nombre": "Boiler",
+        "numero_quemadores": "NA",
+        "categoria": "baja",
+        "icono": "fas fa-utensils"
+    },
+    {
+        "id": 3,
+        "nombre": "Estufa 6q",
+        "numero_quemadores": 6,
+        "categoria": "baja",
+        "icono": "fas fa-utensils"
+    },
+    {
+        "id": 4,
+        "nombre": "Equipo Alta",
+        "numero_quemadores": "input",
+        "categoria": "alta",
+        "icono": "fas fa-utensils"
+    },
+    {
+        "id": 5,
+        "nombre": "Equipo Baja",
+        "numero_quemadores": "input",
+        "categoria": "baja",
+        "icono": "fas fa-utensils"
+    }
+]
