@@ -292,6 +292,7 @@ void _showMenuAccesorios() async {
   );
 }
 
+//metodo para agregar tuberias
 void _addTuberia(double longitud, String direccion) {
   final nodoInicio = pointsWithIds[selectedPointIndex!];
   
@@ -315,6 +316,49 @@ void _addTuberia(double longitud, String direccion) {
   elementoController.addElemento(
     elementoTipo: 1,
     idElemento: 1,
+    longitud: longitud,
+    nodoInicio: nodoInicio['id'],
+    nodoFin: pointsWithIds.last['id'],
+    direccion: direccion,
+  );
+
+  // Agregar línea a la lista de líneas
+  setState(() {
+    lines.add({
+      'start': nodoInicio['point'],
+      'end': nodoFinOffset,
+    });
+  });
+
+  // Imprimir el estado actualizado
+  print(elementoController.getListaJson());
+}
+
+//metodo para agregar equipos
+void _addEquipos(double longitud, String direccion, String idEquipo) {
+  final nodoInicio = pointsWithIds[selectedPointIndex!];
+  
+  // Determinar la función de dirección basada en la disposición
+  Offset Function(String direccion, double longitud) obtenerDireccion;
+
+  if (disposicion == 'izquierda') {
+    obtenerDireccion = GetDirectionControlLeft;
+  } else if (disposicion == 'derecha') {
+    obtenerDireccion = GetDirectionControlRight;
+  } else {
+    // Puedes agregar un manejo para disposiciones no definidas si es necesario
+    return;
+  }
+
+  // Calcular la posición final
+  final Offset nodoFinOffset = nodoInicio['point'] + obtenerDireccion(direccion, longitud);
+  //convertir el id del equipo a entero
+  int ID_EQUIPO = int.parse(idEquipo);
+  // Llamar a las funciones comunes para agregar el punto y el elemento
+  addPoint(nodoFinOffset.dx, nodoFinOffset.dy, true);
+  elementoController.addElemento(
+    elementoTipo: 3, //3 significa equipo
+    idElemento: ID_EQUIPO,
     longitud: longitud,
     nodoInicio: nodoInicio['id'],
     nodoFin: pointsWithIds.last['id'],

@@ -11,10 +11,10 @@ Offset GetDirectionControlRight(String direccion, double longitud) {
   final movementConfig = {
     'Arriba': Offset(0, -1),
     'Abajo': Offset(0, 1),
-    'Izquierda': Offset(-cos(angleRadians), -sin(angleRadians)),
-    'Derecha': Offset(cos(angleRadians), sin(angleRadians)),
-    'Frente': Offset(-cos(angleRadians), sin(angleRadians)),
-    'Atrás': Offset(cos(angleRadians), -sin(angleRadians)),
+    'Izquierda': Offset(-cos(angleRadians), sin(angleRadians)),
+    'Derecha': Offset(cos(angleRadians), -sin(angleRadians)),
+    'Frente': Offset(cos(angleRadians), sin(angleRadians)),
+    'Atrás': Offset(-cos(angleRadians), -sin(angleRadians)),
   };
 
   // Escalar el desplazamiento según la longitud y el factor de escala
