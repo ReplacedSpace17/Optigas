@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:optigas/config/Left_movement_config.dart';
 import 'package:optigas/controllers/ElementController.dart';
 import 'package:optigas/controllers/Uuid_Controller.dart';
-import 'package:optigas/views/respaldo/Render.dart';
+import 'package:optigas/views/Render.dart';
 
 class IsometricoScreen extends StatefulWidget {
   @override
@@ -209,10 +209,7 @@ void initState() {
     SizedBox(height: 10), // Espacio entre los botones
     FloatingActionButton(
       onPressed: () {
-Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => RenderScreen()),
-    );
+
       },
       child: Icon(Icons.done),
     ),

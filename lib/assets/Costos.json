@@ -1,0 +1,33 @@
+[
+    {
+        "Equipos": [
+            {
+                "Categoria": "Alta",
+                "Costo": 1000
+            },
+            {
+                "Categoria": "Baja",
+                "Costo": 500
+            }
+        ],
+        "CuadroRegulacion": [
+            {
+                "Diametro_mm": 20.93,
+                "Costo": 100
+            },
+            {
+                "Diametro_mm": 25.4,
+                "Costo": 200
+            },
+            {
+                "Diametro_mm": 20.93,
+                "Costo": 100
+            },
+            {
+                "Diametro_mm": 25.4,
+                "Costo": 200
+            }
+        ]
+
+    }
+]

@@ -1,0 +1,30 @@
+[
+    {
+        "name": "Galvanizado",
+        "unit": "m",
+        "description": "Tubería de acero galvanizado de 1/2 pulgada de diámetro.",
+        "Diametros": [
+            {
+                "name": "3/4",
+                "mm": 20.93,
+                "price": 10
+            },
+            {
+                "name": "1",
+                "mm": 26.64,
+                "price": 0.6
+            },
+            {
+                "name": "1 1/4",
+                "mm": 35.05,
+                "price": 0.7
+            },
+            {
+                "name": "1 1/2",
+                "mm": 40.89,
+                "price": 0.8
+            }
+        ]
+    }   
+
+]

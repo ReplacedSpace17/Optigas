@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:optigas/model/ElementModel.dart';
 
 class ElementoController {
@@ -30,5 +32,10 @@ class ElementoController {
 
   List<Map<String, dynamic>> getListaJson() {
     return elementos.map((elemento) => elemento.toJson()).toList();
+  }
+  /// Método para obtener el JSON válido con comillas dobles
+  String getJsonComillas() {
+    final listaJson = getListaJson();
+    return jsonEncode(listaJson);
   }
 }

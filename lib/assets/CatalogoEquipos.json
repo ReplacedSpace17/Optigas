@@ -12,6 +12,7 @@
         "nombre": "Boiler",
         "numero_quemadores": "NA",
         "categoria": "baja",
+        "consumo": 2,
         "icono": "fas fa-utensils"
     },
     {
@@ -19,6 +20,7 @@
         "nombre": "Estufa 6q",
         "numero_quemadores": 6,
         "categoria": "baja",
+        "consumo": 2,
         "icono": "fas fa-utensils"
     },
     {
@@ -26,6 +28,7 @@
         "nombre": "Equipo Alta",
         "numero_quemadores": "input",
         "categoria": "alta",
+        "consumo": 1,
         "icono": "fas fa-utensils"
     },
     {
@@ -33,6 +36,7 @@
         "nombre": "Equipo Baja",
         "numero_quemadores": "input",
         "categoria": "baja",
+        "consumo": 2,
         "icono": "fas fa-utensils"
     }
 ]

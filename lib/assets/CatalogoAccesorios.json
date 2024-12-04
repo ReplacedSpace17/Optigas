@@ -1,18 +1,17 @@
 [
     {
         "id": 1,
-        "nombre": "Regulador alta"
+        "nombre": "Regulador baja",
+        "costo": 100
     },
     {
         "id": 2,
-        "nombre": "Regulador baja"
+        "nombre": "Medidor",
+        "costo": 200
     },
     {
         "id": 3,
-        "nombre": "Medidor"
-    },
-    {
-        "id": 4,
-        "nombre": "Válvula de cierre rápido"
+        "nombre": "Válvula de cierre rápido",
+        "costo": 300
     }
 ]
