@@ -562,7 +562,7 @@ class ResolveController {
     //print(resultadoJson);
   }
 
-  String getNodosLetras() {
-    return NODOS_LETRAS;
-  }
+  List<Map<String, dynamic>> getNodosLetras() {
+  return List<Map<String, dynamic>>.from(json.decode(NODOS_LETRAS));
+}
 }

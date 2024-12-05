@@ -33,11 +33,19 @@ class IsometricoScreen extends StatefulWidget {
 }
 
 class _IsometricoScreenState extends State<IsometricoScreen> {
+// escala para figuras
+final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
+
   Offset offset = Offset(0, 0);
   Offset? selectedPoint;
   int? selectedPointIndex;
   final List<Map<String, dynamic>> pointsWithIds = [];
   final List<Map<String, Offset>> lines = []; // Lista de líneas para dibujar
+  final List<Map<String, dynamic>> nodosLetras = []; // Lista de nodos y letras
+
+  //figuras y accesorios
+  final List<Map<String, dynamic>> figuras = [];
+
   final ElementoController elementoController = ElementoController();
   final IdController idController = IdController();
 
@@ -57,6 +65,180 @@ class _IsometricoScreenState extends State<IsometricoScreen> {
       });
       addPoint(0, 0, true);
     });
+
+    //agregar figuras inicial
+    figuras.clear();
+figuras.add({
+  "coordenadaInicialX": 0.0, // Coordenada inicial en X
+  "coordenadaInicialY": 0.0,  // Coordenada inicial en Y
+  "instructions": [
+    // Línea vertical de arriba a abajo (startX, startY)
+    {
+      "type": "line",
+      "is_node": true,
+      "points": [
+        {"dx": 0.0 * scaleFactor, "dy": 0.0 * scaleFactor}, 
+        {"dx": 0.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+      ]
+    },
+    // Línea vertical adicional (startX - 20, startY)
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+        {"dx": -20.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+      ]
+    },
+    // Varias líneas para la base y las diagonales
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+        {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+        {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+        {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor},
+        {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+      ]
+    },
+    // Detalles internos (cruces dentro del rectángulo)
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+        {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor},
+        {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+        {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+        {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+      ]
+    },
+    // Lado izquierdo y círculo exterior
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+        {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+        {"dx": -90.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+      ]
+    },
+    // Círculo exterior
+    {
+      "type": "circle",
+      "is_node": false,
+      "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
+      "radius": 20.0 * scaleFactor
+    },
+    // Círculo interior
+    {
+      "type": "circle",
+      "is_node": false,
+      "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
+      "radius": 10.0 * scaleFactor
+    },
+    // Líneas de la base del círculo
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -90.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+        {"dx": -90.0 * scaleFactor, "dy": 100.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+        {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor},
+        {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+        {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+        {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+      ]
+    },
+    {
+      "type": "line",
+      "is_node": false,
+      "points": [
+        {"dx": -90.0 * scaleFactor, "dy": 150.0 * scaleFactor},
+        {"dx": -90.0 * scaleFactor, "dy": 170.0 * scaleFactor}
+      ]
+    }
+  ]
+});
+
   }
 
   void addPoint(double x, double y, bool isSelectable) {
@@ -119,7 +301,61 @@ class _IsometricoScreenState extends State<IsometricoScreen> {
     //obtener las listas de calculos y de elementos
     var nodosLetras = resolveController.getNodosLetras();
     print(nodosLetras);
-    //Navigator.push(context,MaterialPageRoute(builder: (context) => ResultsScreen(tablaCalculada: TablaCalculada, tablaCotizacion: tablaCotizacion,),),);
+    print("PointWithIds");
+    print(pointsWithIds);
+
+    _searchNodos(nodosLetras);
+
+//imprimir la tabla calculada
+print("Cantidad de registros en Tabla Calculada: ${TablaCalculada?.length}");
+
+    //navegar a la pantalla de resultados si existe registros en la tabla cotizacion
+    if (TablaCalculada!.length > 2){
+      Navigator.push(context,MaterialPageRoute(builder: (context) => ResultsScreen(tablaCalculada: TablaCalculada, tablaCotizacion: tablaCotizacion,),),);
+    }
+    else{
+      _showSnackBar("No existen tramos para calcular");
+    }
+    
+  }
+
+  void _searchNodos(List<Map<String, dynamic>> listaNodosLetras) {
+    nodosLetras.clear();
+    // Buscar las letras de los nodos y dibujarlas en el canvas
+    for (var nodoLetra in listaNodosLetras) {
+      String nodoId = nodoLetra['nodo'];
+      String letra = nodoLetra['letra'];
+
+      // Buscar el nodo en pointsWithIds usando el id
+      var nodo = pointsWithIds.firstWhere(
+        (point) => point['id'] == nodoId,
+        orElse: () => {}, // Si no se encuentra, devuelve null
+      );
+
+      if (nodo != null) {
+        // Obtener las coordenadas del nodo
+        Offset nodoPoint = nodo['point'];
+
+        // Aquí puedes dibujar la letra en el canvas
+        // Ajusta la posición para que la letra esté a un lado del nodo
+        double offsetX = nodoPoint.dx + 20; // Desplazamiento horizontal
+        double offsetY = nodoPoint.dy + 30; // Mantener la misma altura
+
+        // Agregar la letra y su posición a la lista para dibujar
+        nodosLetras.add({'letra': letra, 'position': Offset(offsetX, offsetY)});
+
+        //agregar figuras
+
+        //imprimir las posicion de las letras
+        print("Posicion de la letra");
+        print("X: $offsetX");
+        print("Y: $offsetY");
+      }
+    }
+
+
+
+
   }
 
   void _showMenuTuberias() {
@@ -437,6 +673,8 @@ class _IsometricoScreenState extends State<IsometricoScreen> {
             selectedPointIndex: selectedPointIndex,
             points: pointsWithIds,
             lines: lines, // Pasar las líneas al pintor
+            nodosLetras: nodosLetras,
+            figuras: figuras,
           ),
         ),
       ),
@@ -479,11 +717,18 @@ class IsometricPainter extends CustomPainter {
   final List<Map<String, dynamic>> points;
   final List<Map<String, Offset>> lines;
 
+  final List<Map<String, dynamic>> nodosLetras;
+
+  //para figuras
+  final List<Map<String, dynamic>> figuras;
+
   IsometricPainter({
     required this.offset,
     required this.selectedPointIndex,
     required this.points,
     required this.lines,
+    required this.nodosLetras,
+    required this.figuras,
   });
 
   @override
@@ -492,12 +737,14 @@ class IsometricPainter extends CustomPainter {
       ..color = Color.fromARGB(255, 32, 32, 32)
       ..strokeWidth = 2.0;
 
+    //dibuja las lineas
     for (final line in lines) {
       final start = line['start']! + offset;
       final end = line['end']! + offset;
       canvas.drawLine(start, end, paint);
     }
 
+    //dibuja los puntos
     for (int i = 0; i < points.length; i++) {
       final point = points[i];
       final position = point['point'] + offset;
@@ -511,6 +758,75 @@ class IsometricPainter extends CustomPainter {
               : Colors.black,
       );
     }
+
+    // Dibuja las letras con el desplazamiento aplicado
+    for (var nodoLetra in nodosLetras) {
+      String letra = nodoLetra['letra'];
+      Offset position = nodoLetra['position'] + offset; // Aplica el offset
+
+      // Dibujar la letra en el canvas
+      TextSpan span =
+          TextSpan(text: letra, style: TextStyle(color: Colors.black));
+      TextPainter textPainter = TextPainter(
+        text: span,
+        textAlign: TextAlign.center,
+        textDirection: TextDirection.ltr,
+      );
+      textPainter.layout();
+      textPainter.paint(canvas, position);
+    }
+
+    //----------------------------------------------------------------- Itera sobre cada figura en la lista
+
+for (final figura in figuras) {
+  final coordenadaInicialX = figura['coordenadaInicialX'] as double;
+  final coordenadaInicialY = figura['coordenadaInicialY'] as double;
+
+  final instructions = figura['instructions'] as List<dynamic>;
+
+  for (final instruction in instructions) {
+    if (instruction['type'] == 'line') {
+      final points = instruction['points'] as List<dynamic>;
+      final start = points[0];
+      final end = points[1];
+
+      // Convertir las proporciones a coordenadas absolutas
+      final startX = coordenadaInicialX + (start['dx'] as double);
+      final startY = coordenadaInicialY + (start['dy'] as double);
+      final endX = coordenadaInicialX + (end['dx'] as double);
+      final endY = coordenadaInicialY + (end['dy'] as double);
+
+      // Crear los offsets con las coordenadas absolutas y el offset adicional
+      final startOffset = Offset(startX, startY) + offset;
+      final endOffset = Offset(endX, endY) + offset;
+
+      // Dibujar la línea en el canvas
+      canvas.drawLine(startOffset, endOffset, paint);
+    } else if (instruction['type'] == 'circle') {
+      final center = instruction['center'] as Map<String, dynamic>;
+      final radius = instruction['radius'] as double;
+
+      // Convertir las proporciones a coordenadas absolutas
+      final centerX = coordenadaInicialX + (center['dx'] as double);
+      final centerY = coordenadaInicialY + (center['dy'] as double);
+
+      // Crear el offset para el centro del círculo
+      final centerOffset = Offset(centerX, centerY) + offset;
+
+      // Configurar el estilo del paint para el borde del círculo
+      final strokePaint = Paint()
+        ..color = paint.color // Usar el color actual
+        ..strokeWidth = paint.strokeWidth // Usar el grosor actual
+        ..style = PaintingStyle.stroke; // Solo dibujar el borde
+
+      // Dibujar el círculo en el canvas
+      canvas.drawCircle(centerOffset, radius, strokePaint);
+    }
+  }
+}
+
+
+
   }
 
   @override
