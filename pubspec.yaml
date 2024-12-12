@@ -63,6 +63,7 @@ flutter:
     - lib/assets/CatalogoAccesorios.json
     - lib/assets/Tuberias.json
     - lib/assets/Costos.json
+    - lib/assets/logo.jpeg
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in

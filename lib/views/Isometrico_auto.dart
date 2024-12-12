@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:optigas/config/Left_movement_config.dart';
@@ -34,7 +35,7 @@ class IsometricoScreen extends StatefulWidget {
 
 class _IsometricoScreenState extends State<IsometricoScreen> {
 // escala para figuras
-final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
+  final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
 
   Offset offset = Offset(0, 0);
   Offset? selectedPoint;
@@ -43,8 +44,10 @@ final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
   final List<Map<String, Offset>> lines = []; // Lista de líneas para dibujar
   final List<Map<String, dynamic>> nodosLetras = []; // Lista de nodos y letras
 
-  //figuras y accesorios
+  //figuras
   final List<Map<String, dynamic>> figuras = [];
+  //elementos en canvas como accesorios y equipos
+  final List<Map<String, dynamic>> iconos = [];
 
   final ElementoController elementoController = ElementoController();
   final IdController idController = IdController();
@@ -55,6 +58,9 @@ final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
 
 // crear instancia para generar la ccotizacion
   CotizacionCreate cotizacion = CotizacionCreate();
+
+  ///
+
   @override
   void initState() {
     super.initState();
@@ -68,177 +74,273 @@ final double scaleFactor = 0.5; // Escala para reducir la figura a la mitad
 
     //agregar figuras inicial
     figuras.clear();
-figuras.add({
-  "coordenadaInicialX": 0.0, // Coordenada inicial en X
-  "coordenadaInicialY": 0.0,  // Coordenada inicial en Y
-  "instructions": [
-    // Línea vertical de arriba a abajo (startX, startY)
-    {
-      "type": "line",
-      "is_node": true,
-      "points": [
-        {"dx": 0.0 * scaleFactor, "dy": 0.0 * scaleFactor}, 
-        {"dx": 0.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+    figuras.add({
+      "coordenadaInicialX": 0.0, // Coordenada inicial en X
+      "coordenadaInicialY": 0.0, // Coordenada inicial en Y
+      "instructions": [
+        // Línea vertical de arriba a abajo (startX, startY)
+        {
+          "type": "line",
+          "is_node": true,
+          "points": [
+            {"dx": 0.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+            {"dx": 0.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+          ]
+        },
+        // Línea vertical adicional (startX - 20, startY)
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+            {"dx": -20.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+          ]
+        },
+        // Varias líneas para la base y las diagonales
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+            {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+            {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
+            {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor},
+            {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+          ]
+        },
+        // Detalles internos (cruces dentro del rectángulo)
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+            {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor},
+            {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+            {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor},
+            {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
+          ]
+        },
+        // Lado izquierdo y círculo exterior
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+            {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor},
+            {"dx": -90.0 * scaleFactor, "dy": 60.0 * scaleFactor}
+          ]
+        },
+        // Círculo exterior
+        {
+          "type": "circle",
+          "is_node": false,
+          "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
+          "radius": 20.0 * scaleFactor
+        },
+        // Círculo interior
+        {
+          "type": "circle",
+          "is_node": false,
+          "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
+          "radius": 10.0 * scaleFactor
+        },
+        // Líneas de la base del círculo
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -90.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+            {"dx": -90.0 * scaleFactor, "dy": 100.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+            {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor},
+            {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+            {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
+            {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
+          ]
+        },
+        {
+          "type": "line",
+          "is_node": false,
+          "points": [
+            {"dx": -90.0 * scaleFactor, "dy": 150.0 * scaleFactor},
+            {"dx": -90.0 * scaleFactor, "dy": 170.0 * scaleFactor}
+          ]
+        }
       ]
-    },
-    // Línea vertical adicional (startX - 20, startY)
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
-        {"dx": -20.0 * scaleFactor, "dy": 20.0 * scaleFactor}
-      ]
-    },
-    // Varias líneas para la base y las diagonales
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
-        {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -30.0 * scaleFactor, "dy": 20.0 * scaleFactor},
-        {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": 10.0 * scaleFactor, "dy": 20.0 * scaleFactor},
-        {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -30.0 * scaleFactor, "dy": 60.0 * scaleFactor},
-        {"dx": 10.0 * scaleFactor, "dy": 60.0 * scaleFactor}
-      ]
-    },
-    // Detalles internos (cruces dentro del rectángulo)
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
-        {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor},
-        {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": 0.0 * scaleFactor, "dy": 30.0 * scaleFactor},
-        {"dx": 0.0 * scaleFactor, "dy": 40.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -20.0 * scaleFactor, "dy": 30.0 * scaleFactor},
-        {"dx": -20.0 * scaleFactor, "dy": 40.0 * scaleFactor}
-      ]
-    },
-    // Lado izquierdo y círculo exterior
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -20.0 * scaleFactor, "dy": 0.0 * scaleFactor},
-        {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -90.0 * scaleFactor, "dy": 0.0 * scaleFactor},
-        {"dx": -90.0 * scaleFactor, "dy": 60.0 * scaleFactor}
-      ]
-    },
-    // Círculo exterior
-    {
-      "type": "circle",
-      "is_node": false,
-      "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
-      "radius": 20.0 * scaleFactor
-    },
-    // Círculo interior
-    {
-      "type": "circle",
-      "is_node": false,
-      "center": {"dx": -90.0 * scaleFactor, "dy": 80.0 * scaleFactor},
-      "radius": 10.0 * scaleFactor
-    },
-    // Líneas de la base del círculo
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -90.0 * scaleFactor, "dy": 120.0 * scaleFactor},
-        {"dx": -90.0 * scaleFactor, "dy": 100.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
-        {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor},
-        {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -110.0 * scaleFactor, "dy": 120.0 * scaleFactor},
-        {"dx": -70.0 * scaleFactor, "dy": 150.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -70.0 * scaleFactor, "dy": 120.0 * scaleFactor},
-        {"dx": -110.0 * scaleFactor, "dy": 150.0 * scaleFactor}
-      ]
-    },
-    {
-      "type": "line",
-      "is_node": false,
-      "points": [
-        {"dx": -90.0 * scaleFactor, "dy": 150.0 * scaleFactor},
-        {"dx": -90.0 * scaleFactor, "dy": 170.0 * scaleFactor}
-      ]
-    }
-  ]
-});
+    });
+  }
 
+  Future<List<dynamic>> searchInstruccions(int tipo, int id) async {
+    if (tipo == 2) {
+      // Buscar en accesorios la instrucción
+      final accesorios = await cargarCatalogoAccesorios();
+      // Buscar el accesorio con el ID correspondiente
+      var accesorio =
+          accesorios.firstWhere((item) => item['id'] == id, orElse: () => {});
+      if (accesorio != null) {
+        return accesorio['instructions'];
+      } else {
+        print("No se encontró un accesorio con el ID $id.");
+        return [];
+      }
+    } else if (tipo == 3) {
+      // Buscar en equipos la instrucción
+      final equipos = await cargarCatalogoEquipos();
+      // Buscar el equipo con el ID correspondiente
+      var equipo =
+          equipos.firstWhere((item) => item['id'] == id, orElse: () => {});
+      if (equipo != null) {
+        return equipo['instructions'];
+      } else {
+        print("No se encontró un equipo con el ID $id.");
+        return [];
+      }
+    } else {
+      print("Tipo no válido. Use 2 para accesorios o 3 para equipos.");
+      return [];
+    }
+  }
+
+  ///function para agregar una figura
+  Future<void> _add_icon(
+      int id_elemento, int id_icon, double longitud, String direccion) async {
+    //definir si id_elemento = 2 o 3, donde 2 es accesorios y 3 equipos
+    var isSelectionable = false;
+    var instrucciones = await searchInstruccions(id_elemento, id_icon);
+    if (id_elemento == 2) {
+      //accesorios
+      isSelectionable = true;
+    }
+    if (id_elemento == 3) {
+      //Equipos
+      isSelectionable = false;
+    }
+
+    //obtener la direccion
+// Determinar la función de dirección basada en la disposición
+    Offset Function(String direccion, double longitud) obtenerDireccion;
+
+    if (disposicion == 'izquierda') {
+      obtenerDireccion = GetDirectionControlLeft;
+    } else if (disposicion == 'derecha') {
+      obtenerDireccion = GetDirectionControlRight;
+    } else {
+      // Puedes agregar un manejo para disposiciones no definidas si es necesario
+      return;
+    }
+
+    //nodo inicio
+    final nodoInicio = pointsWithIds[selectedPointIndex!];
+    final point = nodoInicio['point'] as Offset;
+    final startX = point.dx;
+    final startY = point.dy;
+
+    // Calcular la posición final
+    final Offset nodoFinOffset =
+        nodoInicio['point'] + obtenerDireccion(direccion, longitud);
+
+    final endX = nodoFinOffset.dx;
+    final endY = nodoFinOffset.dy;
+    //agregar json
+    var contenido = {
+      "coordenadaInicialX": startX, // Coordenada inicial en X
+      "coordenadaInicialY": startY, // Coordenada inicial en Y
+      "instructions": instrucciones,
+      "coordenadaFinalX": endX,
+      "coordenadaFinalY": endY
+    };
+    //iconos.add(content);
+    print(contenido);
+    //agregar a la lista de dibujos
+    iconos.add(contenido);
+    addPoint(endX, endY, isSelectionable); //agregar el punto final
+    //agregar a la lista de elementos
+    elementoController.addElemento(
+      elementoTipo: id_elemento,
+      idElemento: id_icon,
+      longitud: longitud,
+      nodoInicio: nodoInicio['id'],
+      nodoFin: pointsWithIds.last['id'],
+      direccion: direccion,
+    );
+    print("Se han agregado elementos:");
+    print(elementoController.getListaJson());
   }
 
   void addPoint(double x, double y, bool isSelectable) {
@@ -278,6 +380,11 @@ figuras.add({
   }
 
   Future<void> _calcular() async {
+    print("Limpiando iconos");
+    iconos.clear();
+    //tipo_elemento, id, longitud, direccion
+    _add_icon(2, 3, 2, 'Arriba');
+    /*
     // Obtener la lista de elementos (como Map<String, dynamic>)
     final listaElementosJson = elementoController.getListaJson();
     final listaElementosJsonComillas = elementoController.getJsonComillas();
@@ -307,16 +414,23 @@ figuras.add({
     _searchNodos(nodosLetras);
 
 //imprimir la tabla calculada
-print("Cantidad de registros en Tabla Calculada: ${TablaCalculada?.length}");
+    print(
+        "Cantidad de registros en Tabla Calculada: ${TablaCalculada?.length}");
 
     //navegar a la pantalla de resultados si existe registros en la tabla cotizacion
-    if (TablaCalculada!.length > 2){
-      Navigator.push(context,MaterialPageRoute(builder: (context) => ResultsScreen(tablaCalculada: TablaCalculada, tablaCotizacion: tablaCotizacion,),),);
-    }
-    else{
+    if (TablaCalculada!.length > 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ResultsScreen(
+            tablaCalculada: TablaCalculada,
+            tablaCotizacion: tablaCotizacion,
+          ),
+        ),
+      );
+    } else {
       _showSnackBar("No existen tramos para calcular");
     }
-    
   }
 
   void _searchNodos(List<Map<String, dynamic>> listaNodosLetras) {
@@ -353,9 +467,7 @@ print("Cantidad de registros en Tabla Calculada: ${TablaCalculada?.length}");
       }
     }
 
-
-
-
+    */
   }
 
   void _showMenuTuberias() {
@@ -669,13 +781,13 @@ print("Cantidad de registros en Tabla Calculada: ${TablaCalculada?.length}");
         child: CustomPaint(
           size: Size.infinite,
           painter: IsometricPainter(
-            offset: offset,
-            selectedPointIndex: selectedPointIndex,
-            points: pointsWithIds,
-            lines: lines, // Pasar las líneas al pintor
-            nodosLetras: nodosLetras,
-            figuras: figuras,
-          ),
+              offset: offset,
+              selectedPointIndex: selectedPointIndex,
+              points: pointsWithIds,
+              lines: lines, // Pasar las líneas al pintor
+              nodosLetras: nodosLetras,
+              figuras: figuras,
+              iconos: iconos),
         ),
       ),
       floatingActionButton: Column(
@@ -722,14 +834,17 @@ class IsometricPainter extends CustomPainter {
   //para figuras
   final List<Map<String, dynamic>> figuras;
 
-  IsometricPainter({
-    required this.offset,
-    required this.selectedPointIndex,
-    required this.points,
-    required this.lines,
-    required this.nodosLetras,
-    required this.figuras,
-  });
+  /// lista para elemetnos como accesorios
+  final List<Map<String, dynamic>> iconos;
+
+  IsometricPainter(
+      {required this.offset,
+      required this.selectedPointIndex,
+      required this.points,
+      required this.lines,
+      required this.nodosLetras,
+      required this.figuras,
+      required this.iconos});
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -776,56 +891,143 @@ class IsometricPainter extends CustomPainter {
       textPainter.paint(canvas, position);
     }
 
-    //----------------------------------------------------------------- Itera sobre cada figura en la lista
+    //----------------------------------------------------------------- Itera sobre las figuras por default
 
-for (final figura in figuras) {
-  final coordenadaInicialX = figura['coordenadaInicialX'] as double;
-  final coordenadaInicialY = figura['coordenadaInicialY'] as double;
+    for (final figura in figuras) {
+      final coordenadaInicialX = figura['coordenadaInicialX'] as double;
+      final coordenadaInicialY = figura['coordenadaInicialY'] as double;
 
-  final instructions = figura['instructions'] as List<dynamic>;
+      final instructions = figura['instructions'] as List<dynamic>;
 
+      for (final instruction in instructions) {
+        if (instruction['type'] == 'line') {
+          final points = instruction['points'] as List<dynamic>;
+          final start = points[0];
+          final end = points[1];
+
+          // Convertir las proporciones a coordenadas absolutas
+          final startX = coordenadaInicialX + (start['dx'] as double);
+          final startY = coordenadaInicialY + (start['dy'] as double);
+          final endX = coordenadaInicialX + (end['dx'] as double);
+          final endY = coordenadaInicialY + (end['dy'] as double);
+
+          // Crear los offsets con las coordenadas absolutas y el offset adicional
+          final startOffset = Offset(startX, startY) + offset;
+          final endOffset = Offset(endX, endY) + offset;
+
+          // Dibujar la línea en el canvas
+          canvas.drawLine(startOffset, endOffset, paint);
+        } else if (instruction['type'] == 'circle') {
+          final center = instruction['center'] as Map<String, dynamic>;
+          final radius = instruction['radius'] as double;
+
+          // Convertir las proporciones a coordenadas absolutas
+          final centerX = coordenadaInicialX + (center['dx'] as double);
+          final centerY = coordenadaInicialY + (center['dy'] as double);
+
+          // Crear el offset para el centro del círculo
+          final centerOffset = Offset(centerX, centerY) + offset;
+
+          // Configurar el estilo del paint para el borde del círculo
+          final strokePaint = Paint()
+            ..color = paint.color // Usar el color actual
+            ..strokeWidth = paint.strokeWidth // Usar el grosor actual
+            ..style = PaintingStyle.stroke; // Solo dibujar el borde
+
+          // Dibujar el círculo en el canvas
+          canvas.drawCircle(centerOffset, radius, strokePaint);
+        }
+      }
+    }
+
+    var scaleFactor = 0;
+//----------------------------------------------------- DIBUJAR ICONOS
+ for (final icono in iconos) {
+  final coordenadaInicialX = icono['coordenadaInicialX'] as double;
+  final coordenadaInicialY = icono['coordenadaInicialY'] as double;
+  final coordenadaFinalX = icono['coordenadaFinalX'] as double;
+  final coordenadaFinalY = icono['coordenadaFinalY'] as double;
+
+  final instructions = icono['instructions'] as List<dynamic>;
+
+  // Identificamos el primer punto de la primera línea que debe ser el punto de inicio correcto
+  final firstLine = instructions[0];
+  final firstPoint = firstLine['points'][0]; // Este es el punto inicial de la primera línea (de arriba hacia abajo)
+  
+  final firstDx = firstPoint['dx'] as double;
+  final firstDy = firstPoint['dy'] as double;
+
+  // Calcular la distancia original entre el primer punto y el último punto de la figura (de la primera línea al último)
+  final lastLine = instructions.last;
+  final lastPoint = lastLine['points'][1]; // Último punto de la figura
+  final lastDx = lastPoint['dx'] as double;
+  final lastDy = lastPoint['dy'] as double;
+  final originalDistance = (lastDx - firstDx).abs() + (lastDy - firstDy).abs();
+
+  // Calcular la distancia deseada entre las coordenadas de inicio y final de la figura
+  final desiredDistance = (coordenadaFinalX - coordenadaInicialX).abs() + (coordenadaFinalY - coordenadaInicialY).abs();
+
+  // Calcular el factor de escala
+  final scaleFactor = desiredDistance / originalDistance;
+
+  // Primero escalamos todas las coordenadas de la figura
   for (final instruction in instructions) {
     if (instruction['type'] == 'line') {
       final points = instruction['points'] as List<dynamic>;
       final start = points[0];
       final end = points[1];
 
-      // Convertir las proporciones a coordenadas absolutas
-      final startX = coordenadaInicialX + (start['dx'] as double);
-      final startY = coordenadaInicialY + (start['dy'] as double);
-      final endX = coordenadaInicialX + (end['dx'] as double);
-      final endY = coordenadaInicialY + (end['dy'] as double);
+      // Escalamos las coordenadas de inicio y fin con el factor de escala
+      start['dx'] = (start['dx'] as double) * scaleFactor;
+      start['dy'] = (start['dy'] as double) * scaleFactor;
+      end['dx'] = (end['dx'] as double) * scaleFactor;
+      end['dy'] = (end['dy'] as double) * scaleFactor;
+    } else if (instruction['type'] == 'circle') {
+      final center = instruction['center'] as Map<String, dynamic>;
+      final radius = instruction['radius'] as double;
 
-      // Crear los offsets con las coordenadas absolutas y el offset adicional
+      // Escalamos las coordenadas del centro y el radio
+      center['dx'] = (center['dx'] as double) * scaleFactor;
+      center['dy'] = (center['dy'] as double) * scaleFactor;
+      instruction['radius'] = radius * scaleFactor;
+    }
+  }
+
+  // Ahora aplicamos el desplazamiento necesario para alinear la figura con las coordenadas iniciales
+  final alignmentOffsetX = coordenadaInicialX - firstDx;
+  final alignmentOffsetY = coordenadaInicialY - firstDy;
+
+  // Dibujamos la figura ya escalada y centrada
+  for (final instruction in instructions) {
+    if (instruction['type'] == 'line') {
+      final points = instruction['points'] as List<dynamic>;
+      final start = points[0];
+      final end = points[1];
+
+      // Ajustamos las coordenadas con el desplazamiento
+      final startX = alignmentOffsetX + (start['dx'] as double);
+      final startY = alignmentOffsetY + (start['dy'] as double);
+      final endX = alignmentOffsetX + (end['dx'] as double);
+      final endY = alignmentOffsetY + (end['dy'] as double);
+
+      // Dibujamos la línea en el canvas
       final startOffset = Offset(startX, startY) + offset;
       final endOffset = Offset(endX, endY) + offset;
-
-      // Dibujar la línea en el canvas
       canvas.drawLine(startOffset, endOffset, paint);
     } else if (instruction['type'] == 'circle') {
       final center = instruction['center'] as Map<String, dynamic>;
       final radius = instruction['radius'] as double;
 
-      // Convertir las proporciones a coordenadas absolutas
-      final centerX = coordenadaInicialX + (center['dx'] as double);
-      final centerY = coordenadaInicialY + (center['dy'] as double);
+      // Ajustamos las coordenadas del centro con el desplazamiento
+      final centerX = alignmentOffsetX + (center['dx'] as double);
+      final centerY = alignmentOffsetY + (center['dy'] as double);
 
-      // Crear el offset para el centro del círculo
+      // Dibujamos el círculo en el canvas
       final centerOffset = Offset(centerX, centerY) + offset;
-
-      // Configurar el estilo del paint para el borde del círculo
-      final strokePaint = Paint()
-        ..color = paint.color // Usar el color actual
-        ..strokeWidth = paint.strokeWidth // Usar el grosor actual
-        ..style = PaintingStyle.stroke; // Solo dibujar el borde
-
-      // Dibujar el círculo en el canvas
-      canvas.drawCircle(centerOffset, radius, strokePaint);
+      canvas.drawCircle(centerOffset, radius, paint);
     }
   }
 }
-
-
 
   }
 

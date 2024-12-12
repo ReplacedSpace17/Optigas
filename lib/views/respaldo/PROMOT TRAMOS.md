@@ -69,3 +69,12 @@ TERMINAR EL METODO PARA BUSCAR SI HAY REGULADORES Y DEFINIR LA PRESION PF
 REGRESAR LISTA DE NODOS CON LETRA PARA DIBUJAR
 METODOD E DIBUJO EN CANVAS DESDE JSON
 
+
+
+        nodofinalx
+        nodoFinOffset.dx, dy
+
+
+
+
+    print(elementoController.getListaJson());

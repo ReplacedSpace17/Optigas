@@ -5,7 +5,25 @@
         "numero_quemadores": "NA",
         "categoria": "alta",
         "consumo": 6, 
-        "icono": "fas fa-utensils"
+        "icono": "fas fa-utensils",
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    {"dx": 0.0, "dy": 0.0},
+                    {"dx": 10.0, "dy": 10.0}
+                ]
+            },
+            {
+                "type": "circle",
+                "is_node": false,
+                "points": [
+                    {"dx": 5.0, "dy": 5.0}
+                ],
+                "radius": 10.0
+            }
+        ]
     },
     {
         "id": 2,
@@ -13,7 +31,25 @@
         "numero_quemadores": "NA",
         "categoria": "baja",
         "consumo": 2,
-        "icono": "fas fa-utensils"
+        "icono": "fas fa-utensils",
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    {"dx": 0.0, "dy": 0.0},
+                    {"dx": 10.0, "dy": 10.0}
+                ]
+            },
+            {
+                "type": "circle",
+                "is_node": false,
+                "points": [
+                    {"dx": 5.0, "dy": 5.0}
+                ],
+                "radius": 10.0
+            }
+        ]
     },
     {
         "id": 3,
@@ -21,7 +57,25 @@
         "numero_quemadores": 6,
         "categoria": "baja",
         "consumo": 2,
-        "icono": "fas fa-utensils"
+        "icono": "fas fa-utensils",
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    {"dx": 0.0, "dy": 0.0},
+                    {"dx": 10.0, "dy": 10.0}
+                ]
+            },
+            {
+                "type": "circle",
+                "is_node": false,
+                "points": [
+                    {"dx": 5.0, "dy": 5.0}
+                ],
+                "radius": 10.0
+            }
+        ]
     },
     {
         "id": 4,
@@ -29,7 +83,25 @@
         "numero_quemadores": "input",
         "categoria": "alta",
         "consumo": 1,
-        "icono": "fas fa-utensils"
+        "icono": "fas fa-utensils",
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    {"dx": 0.0, "dy": 0.0},
+                    {"dx": 10.0, "dy": 10.0}
+                ]
+            },
+            {
+                "type": "circle",
+                "is_node": false,
+                "points": [
+                    {"dx": 5.0, "dy": 5.0}
+                ],
+                "radius": 10.0
+            }
+        ]
     },
     {
         "id": 5,
@@ -37,6 +109,24 @@
         "numero_quemadores": "input",
         "categoria": "baja",
         "consumo": 2,
-        "icono": "fas fa-utensils"
+        "icono": "fas fa-utensils",
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    {"dx": 0.0, "dy": 0.0},
+                    {"dx": 10.0, "dy": 10.0}
+                ]
+            },
+            {
+                "type": "circle",
+                "is_node": false,
+                "points": [
+                    {"dx": 5.0, "dy": 5.0}
+                ],
+                "radius": 10.0
+            }
+        ]
     }
 ]

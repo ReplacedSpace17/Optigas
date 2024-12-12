@@ -14,7 +14,7 @@ class ConfiguracionScreen extends StatefulWidget {
 class _ConfiguracionScreenState extends State<ConfiguracionScreen> {
   // Variables locales para almacenar las opciones seleccionadas
   bool isPresionInicial150 = presionInicial == 150;
-  bool isDisposicionIzquierda = disposicion == 'izquierda';
+  bool isDisposicionIzquierda = disposicion == 'Izquierda';
   bool isModoAutomatico = modo == 'auto';
 
   // Método para obtener el valor de presión inicial

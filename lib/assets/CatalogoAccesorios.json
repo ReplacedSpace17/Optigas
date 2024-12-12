@@ -2,16 +2,74 @@
     {
         "id": 1,
         "nombre": "Regulador baja",
-        "costo": 100
+        "costo": 100,
+        "instructions": [
+           
+        ]
     },
     {
         "id": 2,
         "nombre": "Medidor",
-        "costo": 200
+        "costo": 200,
+        "instructions": [
+         
+        ]
     },
     {
         "id": 3,
         "nombre": "Válvula de cierre rápido",
-        "costo": 300
+        "costo": 300.0,
+        "instructions": [
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    { "dx": -90.0, "dy": 100.0 },
+                    { "dx": -90.0, "dy": 120.0 }
+                ]
+            },
+            {
+                "type": "line",
+                "is_node": false,
+                "points": [
+                    { "dx": -70.0, "dy": 120.0 },
+                    { "dx": -110.0, "dy": 120.0 }
+                ]
+            },
+            {
+                "type": "line",
+                "is_node": false,
+                "points": [
+                    { "dx": -70.0, "dy": 150.0 },
+                    { "dx": -110.0, "dy": 150.0 }
+                ]
+            },
+            {
+                "type": "line",
+                "is_node": false,
+                "points": [
+                    { "dx": -110.0, "dy": 120.0 },
+                    { "dx": -70.0, "dy": 150.0 }
+                ]
+            },
+            {
+                "type": "line",
+                "is_node": false,
+                "points": [
+                    { "dx": -70.0, "dy": 120.0 },
+                    { "dx": -110.0, "dy": 150.0 }
+                ]
+            },
+            {
+                "type": "line",
+                "is_node": true,
+                "points": [
+                    { "dx": -90.0, "dy": 150.0 },
+                    { "dx": -90.0, "dy": 170.0 }
+                ]
+            }
+        ]
     }
+    
+    
 ]
